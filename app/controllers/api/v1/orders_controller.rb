@@ -11,22 +11,41 @@ class Api::V1::OrdersController < ApplicationController
     Rails.logger.info(parsed_orders.inspect) #log
     data = data_formated(parsed_orders)
 
-    render json: data
+    render json: data, status: 200
   end
 
   def order_id
-    order = Order.includes(:products).find_by(id: params[:id])
-
-    if order.nil?
-      render json: { error: 'Order not found' }, status: :not_found
-    else
-      render json: data_formated([order])
+    file = params[:data_txt]
+    order_id = params[:order_id]&.to_i
+    # order = Order.includes(:products).find_by(user_id)
+    if file.nil? || order_id.nil?
+      render json: { error: 'Empty!' }, status: :bad_request
     end
+
+    parsed_order_id = parse_file_id(file, order_id)
+    if parsed_order_id
+      render json: parsed_order_id, status: :ok
+    else
+      render json: { error: 'Order not found' }, status: :not_found
+    end
+
   end
 
   def orders_filtered
-    orders = Order.all.includes(:products).where(apply_filters)
-    render json: data_formated(orders)
+    file = params[:data_txt]
+    start_date = params[:start_date]
+    end_date = params[:end_date]
+
+    if file.nil? || start_date.nil? || end_date.nil?
+      render json: { error: 'Empty!' }, status: :bad_request
+      return
+    end
+
+    date_range = Date.parse(start_date)..Date.parse(end_date)
+    parsed_orders = parse_file_dates(file, date_range)
+    data = data_formated(parsed_orders)
+
+    render json: data
   end
 
   private
