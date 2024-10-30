@@ -49,19 +49,24 @@ Os endpoints desta API estão disponíveis sob o namespace `/api/v1/orders` e of
 
 **Resposta de Sucesso (200):**
 
+`curl --location 'http://localhost:3000/api/v1/orders/' \
+--form 'data_txt=@"/Caminho/do/data_txt.txt"'`
+
 ```json
 [
   {
-    "user_id": 1,
-    "name": "Tiago Dias",
+    "user_id": 70,
+    "name": "Palmer Prosacco",
     "orders": [
       {
-        "order_id": 1010,
-        "date": "2024-03-05",
-        "total": "150.00",
+        "order_id": 753,
+        "date": "2021-03-08",
+        "total": 4252.53,
         "products": [
-          { "product_id": 1, "value": "100.00" },
-          { "product_id": 2, "value": "50.00" }
+          {
+            "product_id": 3,
+            "value": "1836.74"
+          }
         ]
       }
     ]
@@ -84,13 +89,19 @@ Os endpoints desta API estão disponíveis sob o namespace `/api/v1/orders` e of
 
 **Resposta de Sucesso (200):**
 
+`curl --location 'http://localhost:3000/api/v1/orders/id?order_id=1010' \
+--form 'data_txt=@"/Caminho/do/data_txt.txt"'`
+
 ```json
 {
   "order_id": 1010,
-  "date": "2024-03-05",
+  "date": "2021-08-10",
+  "total": 528.03,
   "products": [
-    { "product_id": 1, "value": "100.00" },
-    { "product_id": 2, "value": "50.00" }
+    {
+      "product_id": 1,
+      "value": "528.03"
+    }
   ]
 }
 ```
@@ -112,18 +123,28 @@ Os endpoints desta API estão disponíveis sob o namespace `/api/v1/orders` e of
 
 **Resposta de Sucesso (200):**
 
+`curl --location 'http://localhost:3000/api/v1/orders/filters?start_date=20210302&end_date=20210306' \
+--form 'data_txt=@"/Caminho/do/data_txt.txt"''`
+
 ```json
 [
   {
-    "user_id": 1,
-    "name": "Tiago Dias",
+    "user_id": 85,
+    "name": "Jama Block",
     "orders": [
       {
-        "order_id": 1010,
-        "date": "2024-03-04",
-        "total": "75.00",
+        "order_id": 908,
+        "date": "2021-03-06",
+        "total": 3417.64,
         "products": [
-          { "product_id": 3, "value": "75.00" }
+          {
+            "product_id": 3,
+            "value": "1544.70"
+          },
+          {
+            "product_id": 2,
+            "value": "1872.94"
+          }
         ]
       }
     ]
