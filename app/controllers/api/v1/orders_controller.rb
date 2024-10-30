@@ -20,6 +20,7 @@ class Api::V1::OrdersController < ApplicationController
     # order = Order.includes(:products).find_by(user_id)
     if file.nil? || order_id.nil?
       render json: { error: 'Empty!' }, status: :bad_request
+      return
     end
 
     parsed_order_id = parse_file_id(file, order_id)

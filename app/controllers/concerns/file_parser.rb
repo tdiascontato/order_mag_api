@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module FileParser
   extend ActiveSupport::Concern
 
@@ -23,7 +25,7 @@ module FileParser
     products = []
     order_date = nil
     total_value = 0.0
-    # montar response
+
     file.read.each_line do |line|
       order = parse_line(line)
 
@@ -33,6 +35,8 @@ module FileParser
         products << { product_id: order[:product_id], value: format('%.2f', order[:value]) }
       end
     end
+
+    return nil if products.empty?
 
     {
       order_id: order_id,
